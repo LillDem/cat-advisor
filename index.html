@@ -2,6 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Кот-советчик 🐱</title>
 
 <style>
@@ -13,25 +14,28 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 #box {
     background: #1a1a22;
     padding: 20px;
     border-radius: 12px;
-    width: 400px;
+    width: 90%;
+    max-width: 400px;
     text-align: center;
 }
 
 button {
     margin-top: 10px;
-    padding: 10px;
+    padding: 12px;
     border: none;
     border-radius: 8px;
     background: #6c5ce7;
     color: white;
     cursor: pointer;
+    width: 100%;
+    font-size: 16px;
 }
 
 button:hover {
@@ -39,11 +43,12 @@ button:hover {
 }
 
 input {
-    padding: 8px;
+    padding: 10px;
     border-radius: 6px;
     border: none;
     margin-top: 10px;
-    width: 80%;
+    width: 90%;
+    font-size: 16px;
 }
 
 #text {
@@ -53,7 +58,8 @@ input {
 
 img {
     margin-top: 10px;
-    width: 200px;
+    width: 70%;
+    max-width: 220px;
     border-radius: 10px;
     transition: 0.2s;
 }
@@ -158,10 +164,8 @@ function askQuestion() {
 
 function petCat() {
     let cat = document.getElementById("catImg");
-
     cat.style.transform = "scale(1.1)";
     setTimeout(() => cat.style.transform = "scale(1)", 200);
-
     getAdvice(true);
 }
 
