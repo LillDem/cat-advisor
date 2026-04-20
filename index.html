@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Кот-советчик 🐱</title>
+
+<style>
+body {
+    margin: 0;
+    background: #0f0f14;
+    color: #e6e6e6;
+    font-family: Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+#box {
+    background: #1a1a22;
+    padding: 20px;
+    border-radius: 12px;
+    width: 400px;
+    text-align: center;
+}
+
+button {
+    margin-top: 10px;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    background: #6c5ce7;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #8177ff;
+}
+
+input {
+    padding: 8px;
+    border-radius: 6px;
+    border: none;
+    margin-top: 10px;
+    width: 80%;
+}
+
+#text {
+    margin-top: 15px;
+    min-height: 80px;
+}
+
+img {
+    margin-top: 10px;
+    width: 200px;
+    border-radius: 10px;
+    transition: 0.2s;
+}
+</style>
+</head>
+
+<body>
+
+<div id="box">
+    <h2>🐱 Кот-советчик</h2>
+
+    <img id="catImg" src="timofey.png">
+
+    <div id="text">Привет, двуногое.<br>Как тебя зовут?</div>
+
+    <input id="nameInput" placeholder="Введи имя">
+    <br>
+    <button id="startBtn" onclick="start()">Далее</button>
+
+    <div id="questionBlock" style="display:none;">
+        <br>
+        <div>Пришел за советом? Спрашивай.</div>
+        <input id="questionInput" placeholder="Напиши свой вопрос">
+        <br>
+        <button onclick="askQuestion()">Спросить кота</button>
+    </div>
+
+    <div id="actions" style="display:none;">
+        <button onclick="petCat()">Погладить кота</button>
+        <button onclick="getAdvice(false)">Не гладить 😈</button>
+        <button onclick="again()">Спросить ещё</button>
+        <button onclick="exit()">Уйти</button>
+    </div>
+</div>
+
+<script>
+let name = "";
+
+const advices = [
+"Корову тебе надо. А лучше двух.",
+"Посмотри на ситуацию сверху. Заберись повыше, например, на шкаф, и обозри оттуда.",
+"Загляни в себя. Подойди к зеркалу, открой рот. Видишь что-нибудь? Вот… это оно и есть…",
+"Приведи козла. Уведи козла. Полегчало? Конечно нет, но попробовать стоило.",
+"Загляни в бездну. Если она смотрит в ответ, поиграйте в гляделки.",
+"Покорми кота. В любой непонятной ситуации найди кота и покорми.",
+"Пойди на рынок и найди свиную голову. Вот ей мозг и выноси.",
+"Встань и иди! Кота кормить, разумеется!",
+"Попробуй подумать самостоятельно. Хоть раз."
+];
+
+const idleLines = [
+"Ты меня утомил, двуногое.",
+"В лоток отойду, а ты подожди пока.",
+"У меня скоро обед, не задерживай.",
+"А на соседней улице рыбоф показывали. Кросивое…"
+];
+
+const exitLines = [
+"Иди, двуногое, займись… чем ты там обычно занимаешься.",
+"Ты вроде ничего… Заходи еще. Аахаха, нет.",
+"Не забудь поклониться коту перед уходом."
+];
+
+const roastLines = [
+"Ты серьёзно сейчас это спросил?",
+"С таким вопросом тебе не совет нужен, а чудо.",
+"Я бы ответил… но мне лень.",
+"Хмм. Попробуй сначала подумать."
+];
+
+function start() {
+    name = document.getElementById("nameInput").value || "безымянное";
+
+    document.getElementById("text").innerHTML =
+        "Привет, " + name + ".<br>Пришел за советом?";
+
+    document.getElementById("nameInput").style.display = "none";
+    document.getElementById("startBtn").style.display = "none";
+
+    document.getElementById("questionBlock").style.display = "block";
+}
+
+function askQuestion() {
+    let question = document.getElementById("questionInput").value.trim();
+
+    if (question === "") {
+        document.getElementById("text").innerHTML =
+            "Ты молчишь и ждёшь ответа?<br>Сформулируй мысль.";
+        return;
+    }
+
+    let roast = roastLines[Math.floor(Math.random() * roastLines.length)];
+
+    document.getElementById("text").innerHTML =
+        "Хмм… \"" + question + "\"...<br><br>" +
+        roast + "<br><br>" +
+        "Ну ладно.<br>Погладишь кота — получишь добрый совет.<br>Не погладишь — тоже получишь.";
+
+    document.getElementById("questionBlock").style.display = "none";
+    document.getElementById("actions").style.display = "block";
+}
+
+function petCat() {
+    let cat = document.getElementById("catImg");
+
+    cat.style.transform = "scale(1.1)";
+    setTimeout(() => cat.style.transform = "scale(1)", 200);
+
+    getAdvice(true);
+}
+
+function getAdvice(isNice) {
+    let advice = advices[Math.floor(Math.random() * advices.length)];
+    let idle = idleLines[Math.floor(Math.random() * idleLines.length)];
+
+    document.getElementById("text").innerHTML =
+        (isNice ? "Мррр… ладно.<br><br>" : "Сам виноват.<br><br>") +
+        advice + "<br><br>" +
+        idle +
+        "<br><br><i>(можешь спросить ещё)</i>";
+}
+
+function again() {
+    document.getElementById("text").innerHTML =
+        "Ну давай, спрашивай ещё.";
+
+    document.getElementById("questionInput").value = "";
+    document.getElementById("questionBlock").style.display = "block";
+}
+
+function exit() {
+    let line = exitLines[Math.floor(Math.random() * exitLines.length)];
+    document.getElementById("text").innerHTML = line;
+    document.getElementById("actions").style.display = "none";
+}
+</script>
+
+</body>
+</html>
